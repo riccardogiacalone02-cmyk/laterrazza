@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Terrazza Marsala – Affittacamere nel cuore della Sicilia</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Josefin+Sans:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1a2744;
+    --navy-deep: #111b33;
+    --navy-mid: #223060;
+    --gold: #c9a84c;
+    --gold-light: #e2c478;
+    --cream: #f5f0e8;
+    --cream-soft: #faf7f2;
+    --text-light: #e8e2d6;
+    --text-muted: #9b9080;
+    --white: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy);
+    color: var(--cream);
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ─── NAVBAR ─────────────────────────────────── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 48px;
+    background: rgba(17, 27, 51, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    transition: padding .3s;
+  }
+
+  .nav-logo img { height: 60px; width: auto; object-fit: contain; }
+  .brand-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--cream);
+    text-decoration: none;
+    line-height: 1;
+  }
+  .brand-text-nav { font-size: 30px; }
+  .brand-text-footer { font-size: 24px; }
+
+  .nav-links { display: flex; gap: 32px; align-items: center; }
+  .nav-links a {
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 300;
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--cream);
+    text-decoration: none;
+    transition: color .25s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute; bottom: -4px; left: 0; right: 0;
+    height: 1px; background: var(--gold);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .3s;
+  }
+  .nav-links a:hover { color: var(--gold-light); }
+  .nav-links a:hover::after { transform: scaleX(1); }
+
+  .lang-switcher {
+    display: flex; gap: 6px; align-items: center;
+    margin-left: 24px; padding-left: 24px;
+    border-left: 1px solid rgba(201,168,76,0.3);
+  }
+  .lang-btn {
+    font-size: 10px; letter-spacing: 2px; font-weight: 400;
+    color: var(--text-muted); cursor: pointer; background: none;
+    border: none; padding: 4px 6px; transition: color .2s;
+    font-family: 'Josefin Sans', sans-serif;
+    text-transform: uppercase;
+  }
+  .lang-btn.active { color: var(--gold); }
+  .lang-btn:hover { color: var(--gold-light); }
+
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .hamburger span { display: block; width: 24px; height: 1px; background: var(--cream); transition: .3s; }
+
+  /* ─── HERO ────────────────────────────────────── */
+  #hero {
+    position: relative; height: 100vh; min-height: 700px;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg"/>') center/cover no-repeat;
+    transform: scale(1.05);
+    transition: transform 8s ease;
+  }
+  #hero:hover .hero-bg { transform: scale(1.0); }
+
+  .hero-img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%; object-fit: cover;
+    filter: brightness(0.45) saturate(0.8);
+  }
+
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(
+      160deg,
+      rgba(17,27,51,0.55) 0%,
+      rgba(17,27,51,0.3) 50%,
+      rgba(17,27,51,0.7) 100%
+    );
+  }
+
+  .hero-content {
+    position: relative; text-align: center;
+    padding: 0 24px; animation: fadeUp .9s ease both;
+  }
+
+  .hero-tagline {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 10px; letter-spacing: 5px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 20px;
+    opacity: 0; animation: fadeUp .7s .2s ease both;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(64px, 10vw, 110px);
+    font-weight: 300; line-height: 0.95;
+    color: var(--cream-soft); letter-spacing: -1px;
+    margin-bottom: 28px;
+    opacity: 0; animation: fadeUp .7s .4s ease both;
+  }
+
+  .hero-divider {
+    display: flex; align-items: center; justify-content: center;
+    gap: 16px; margin-bottom: 24px;
+    opacity: 0; animation: fadeUp .7s .5s ease both;
+  }
+  .hero-divider::before, .hero-divider::after {
+    content: ''; flex: 1; max-width: 80px;
+    height: 1px; background: var(--gold);
+  }
+  .hero-divider-icon { color: var(--gold); font-size: 14px; }
+
+  .hero-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(16px, 2.5vw, 22px);
+    font-weight: 300; font-style: italic;
+    color: var(--text-light); letter-spacing: 0.5px;
+    margin-bottom: 48px; line-height: 1.5;
+    opacity: 0; animation: fadeUp .7s .6s ease both;
+  }
+
+  .hero-cta {
+    display: inline-block; padding: 16px 48px;
+    border: 1px solid var(--gold);
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--cream); text-decoration: none;
+    position: relative; overflow: hidden;
+    transition: color .35s;
+    opacity: 0; animation: fadeUp .7s .8s ease both;
+  }
+  .hero-cta::before {
+    content: ''; position: absolute; inset: 0;
+    background: var(--gold); transform: translateX(-101%);
+    transition: transform .35s cubic-bezier(.4,0,.2,1);
+  }
+  .hero-cta:hover { color: var(--navy-deep); }
+  .hero-cta:hover::before { transform: translateX(0); }
+  .hero-cta span { position: relative; z-index: 1; }
+
+  .hero-scroll {
+    position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    opacity: 0; animation: fadeUp .7s 1.1s ease both;
+  }
+  .hero-scroll span {
+    font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--text-muted); text-align: center; display: block;
+    padding-left: 0.15em; /* compensate letter-spacing on last char */
+  }
+  .scroll-line {
+    width: 1px; height: 40px; background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 2s infinite;
+  }
+
+  /* ─── SECTIONS COMMON ─────────────────────────── */
+  section { padding: 100px 0; }
+
+  .section-label {
+    font-size: 9px; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 300; color: var(--cream-soft);
+    line-height: 1.1;
+  }
+  .section-divider {
+    width: 48px; height: 1px; background: var(--gold);
+    margin: 24px 0 32px;
+  }
+  .container { max-width: 1200px; margin: 0 auto; padding: 0 48px; }
+
+  /* ─── PRESENTAZIONE ───────────────────────────── */
+  #presentazione {
+    background: var(--navy-deep);
+    position: relative; overflow: hidden;
+  }
+  #presentazione::before {
+    content: '';
+    position: absolute; top: -1px; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  .pres-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: center;
+  }
+
+  .pres-img-wrap {
+    position: relative;
+  }
+  .pres-img-wrap img {
+    width: 100%; height: 560px; object-fit: cover;
+    display: block;
+  }
+  .pres-img-wrap::after {
+    content: '';
+    position: absolute; top: 16px; left: 16px; right: -16px; bottom: -16px;
+    border: 1px solid rgba(201,168,76,0.3);
+    pointer-events: none; z-index: 0;
+  }
+  .pres-img-wrap img { position: relative; z-index: 1; }
+
+  .pres-text { padding-left: 20px; }
+
+  .pres-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; font-weight: 300; line-height: 1.75;
+    color: var(--text-light);
+  }
+
+  .pres-features {
+    display: flex; gap: 32px; margin-top: 40px; flex-wrap: wrap;
+  }
+  .pres-feat {
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .pres-feat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36px; font-weight: 300; color: var(--gold);
+    line-height: 1;
+  }
+  .pres-feat-label {
+    font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* ─── CAMERE ──────────────────────────────────── */
+  #camere {
+    background: var(--navy);
+    position: relative;
+  }
+
+  .camere-tabs {
+    display: flex; gap: 0; margin-bottom: 48px;
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .camere-tabs::-webkit-scrollbar { display: none; }
+
+  .tab-btn {
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--text-muted); background: none; border: none;
+    padding: 16px 28px; cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: color .25s, border-color .25s;
+    white-space: nowrap;
+  }
+  .tab-btn:hover { color: var(--cream); }
+  .tab-btn.active {
+    color: var(--gold);
+    border-bottom-color: var(--gold);
+  }
+
+  .camera-panel { display: none; }
+  .camera-panel.active { display: block; }
+
+  .slider-wrap {
+    position: relative; overflow: hidden;
+    background: var(--navy-deep);
+  }
+
+  .slides-track {
+    display: flex; transition: transform .5s cubic-bezier(.4,0,.2,1);
+  }
+
+  .slide {
+    min-width: 100%; position: relative;
+  }
+  .slide img {
+    width: 100%; height: 560px; object-fit: cover;
+    display: block; filter: brightness(0.9);
+  }
+
+  .slider-btn {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 48px; height: 48px;
+    background: rgba(17,27,51,0.7); border: 1px solid rgba(201,168,76,0.4);
+    color: var(--gold); font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; z-index: 10;
+    transition: background .25s, border-color .25s;
+  }
+  .slider-btn:hover { background: rgba(201,168,76,0.2); border-color: var(--gold); }
+  .slider-prev { left: 20px; }
+  .slider-next { right: 20px; }
+
+  .slider-dots {
+    position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 8px;
+  }
+  .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(255,255,255,0.3); cursor: pointer;
+    transition: background .25s;
+  }
+  .dot.active { background: var(--gold); }
+
+  .pres-nearby { margin-top: 36px; }
+  .pres-nearby-row {
+    display: flex; flex-wrap: wrap; gap: 0;
+    border-top: 1px solid rgba(201,168,76,0.2);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    padding: 16px 0;
+  }
+  .pres-nearby-item {
+    display: flex; align-items: center; gap: 8px;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--text-light); padding: 6px 16px 6px 0;
+    white-space: nowrap;
+  }
+  .pres-nearby-item .pres-nearby-emoji { font-size: 16px; }
+  .pres-nearby-sep {
+    color: var(--gold); font-size: 8px; align-self: center;
+    padding-right: 16px; opacity: 0.6;
+  }
+
+  /* ─── RECENSIONI ──────────────────────────────── */
+  #recensioni {
+    background: var(--navy-deep);
+    position: relative; overflow: hidden;
+  }
+  #recensioni::before {
+    content: '';
+    position: absolute; top: -1px; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 24px; margin-top: 48px;
+  }
+
+  .review-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(201,168,76,0.15);
+    padding: 36px; position: relative;
+    transition: border-color .3s, transform .3s;
+  }
+  .review-card:hover {
+    border-color: rgba(201,168,76,0.4);
+    transform: translateY(-4px);
+  }
+
+  .review-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 64px; line-height: 0.5;
+    color: var(--gold); opacity: 0.3;
+    margin-bottom: 12px; display: block;
+  }
+
+  .review-stars { color: var(--gold); font-size: 13px; margin-bottom: 16px; letter-spacing: 2px; }
+
+  .review-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px; font-weight: 300; line-height: 1.7;
+    color: var(--text-light); margin-bottom: 24px;
+    font-style: italic;
+  }
+
+  .review-author {
+    display: flex; align-items: center; gap: 12px;
+  }
+  .review-dot {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 600; color: var(--navy-deep);
+    font-family: 'Josefin Sans', sans-serif;
+  }
+  .review-name {
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--cream);
+  }
+  .review-country {
+    font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--text-muted); margin-top: 2px;
+  }
+
+  /* ─── MAPPA ───────────────────────────────────── */
+  #mappa {
+    background: var(--navy);
+    position: relative;
+  }
+
+  .map-grid {
+    display: grid; grid-template-columns: 1fr 1.4fr;
+    gap: 64px; align-items: start;
+  }
+
+  .map-info { padding-top: 8px; }
+
+  .map-detail {
+    display: flex; gap: 16px; align-items: flex-start;
+    margin-bottom: 28px;
+  }
+  .map-icon {
+    width: 40px; height: 40px; border: 1px solid rgba(201,168,76,0.3);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gold); font-size: 16px; flex-shrink: 0;
+  }
+  .map-detail-text {}
+  .map-detail-label {
+    font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 4px;
+  }
+  .map-detail-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px; color: var(--cream); font-weight: 300;
+  }
+
+  .nearby-list { margin-top: 36px; }
+  .nearby-title {
+    font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 16px;
+  }
+  .nearby-item {
+    display: flex; justify-content: space-between;
+    padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 13px; color: var(--text-light);
+  }
+  .nearby-dist { color: var(--text-muted); font-size: 12px; }
+
+  .map-embed {
+    width: 100%; height: 460px; border: 0;
+    filter: brightness(0.85) contrast(1.1) saturate(0.7) hue-rotate(180deg);
+    display: block;
+  }
+
+  /* ─── CONTATTI ────────────────────────────────── */
+  #contatti {
+    background: var(--navy-deep);
+    position: relative; overflow: hidden;
+  }
+  #contatti::before {
+    content: '';
+    position: absolute; top: -1px; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  .contatti-grid {
+    display: grid; grid-template-columns: 1fr 1.2fr;
+    gap: 80px; align-items: start;
+  }
+
+  .contatti-info { padding-top: 8px; }
+
+  .contact-line {
+    display: flex; gap: 16px; align-items: center;
+    margin-bottom: 24px;
+  }
+  .contact-icon {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(201,168,76,0.3);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--gold); font-size: 14px; flex-shrink: 0;
+  }
+  .contact-val {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px; font-weight: 300; color: var(--cream);
+  }
+  .contact-val a { color: inherit; text-decoration: none; }
+  .contact-val a:hover { color: var(--gold-light); }
+
+  .form-group { margin-bottom: 20px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  .form-group label {
+    display: block; font-size: 9px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+  .form-group input,
+  .form-group textarea {
+    width: 100%; background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(201,168,76,0.2);
+    color: var(--cream); padding: 14px 16px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px; font-weight: 300;
+    outline: none; transition: border-color .25s;
+    resize: vertical;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus { border-color: var(--gold); }
+  .form-group input::placeholder,
+  .form-group textarea::placeholder { color: rgba(255,255,255,0.2); }
+
+  .form-submit {
+    display: inline-block; padding: 16px 48px;
+    border: 1px solid var(--gold);
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--cream); background: none; cursor: pointer;
+    position: relative; overflow: hidden;
+    transition: color .35s;
+  }
+  .form-submit::before {
+    content: ''; position: absolute; inset: 0;
+    background: var(--gold); transform: translateX(-101%);
+    transition: transform .35s cubic-bezier(.4,0,.2,1);
+  }
+  .form-submit:hover { color: var(--navy-deep); }
+  .form-submit:hover::before { transform: translateX(0); }
+  .form-submit span { position: relative; z-index: 1; }
+
+  .form-msg {
+    margin-top: 16px; font-size: 13px; letter-spacing: 1px;
+    display: none;
+  }
+  .form-msg.success { color: var(--gold); display: block; }
+  .form-msg.error { color: #e07070; display: block; }
+
+  /* ─── FOOTER ──────────────────────────────────── */
+  footer {
+    background: var(--navy-deep);
+    border-top: 1px solid rgba(201,168,76,0.15);
+    padding: 48px 0;
+  }
+
+  .footer-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 24px;
+  }
+
+  .footer-logo img { height: 48px; }
+
+  .footer-copy {
+    font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--text-muted); text-align: center;
+  }
+
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a {
+    font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--text-muted); text-decoration: none;
+    transition: color .2s;
+  }
+  .footer-links a:hover { color: var(--gold); }
+
+  /* ─── ANIMATIONS ──────────────────────────────── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes scrollPulse {
+    0%,100% { opacity: 1; transform: scaleY(1); }
+    50%      { opacity: .4; transform: scaleY(0.6); }
+  }
+
+  .reveal {
+    opacity: 0; transform: translateY(32px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ─── MOBILE ──────────────────────────────────── */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; flex-direction: column; background: var(--navy-deep); position: fixed; top: 0; left: 0; right: 0; bottom: 0; align-items: center; justify-content: center; gap: 40px; z-index: 999; }
+    .nav-links.open { display: flex; }
+    .hamburger { display: flex; z-index: 1001; }
+    .hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+    .pres-grid { grid-template-columns: 1fr; gap: 40px; }
+    .pres-text { padding-left: 0; }
+    .map-grid { grid-template-columns: 1fr; }
+    .contatti-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .container { padding: 0 24px; }
+    section { padding: 72px 0; }
+    .slide img { height: 340px; }
+    .reviews-grid { grid-template-columns: 1fr; }
+    .footer-inner { flex-direction: column; align-items: center; text-align: center; }
+    .lang-switcher { margin-left: 16px; padding-left: 16px; }
+    .nav-links .lang-switcher { border-left: none; padding-left: 0; margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ NAVBAR ═══════════════════════════════════════ -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">
+    <span class="brand-text brand-text-nav">La Terrazza</span>
+  </a>
+  <div class="nav-links" id="navLinks">
+    <a href="#presentazione" data-it="La struttura" data-en="About">La struttura</a>
+    <a href="#camere" data-it="Camere" data-en="Rooms">Camere</a>
+    <a href="#recensioni" data-it="Recensioni" data-en="Reviews">Recensioni</a>
+    <a href="#contatti" data-it="Contatti" data-en="Contact">Contatti</a>
+    <div class="lang-switcher">
+      <button class="lang-btn active" onclick="setLang('it')">IT</button>
+      <span style="color:rgba(201,168,76,0.3)">|</span>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ═══ HERO ══════════════════════════════════════════ -->
+<section id="hero">
+  <img class="hero-img" src="img/hero.jpg" alt="Marsala centro storico">
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-tagline" data-it="Marsala · Sicilia · Affittacamere" data-en="Marsala · Sicily · Guesthouse">Marsala · Sicilia · Affittacamere</p>
+    <h1 class="hero-title">La Terrazza</h1>
+    <div class="hero-divider">
+      <span class="hero-divider-icon">✦</span>
+    </div>
+    <p class="hero-subtitle" data-it="Un soggiorno confortevole nel cuore della Sicilia occidentale" data-en="A comfortable stay in the heart of western Sicily">Un soggiorno confortevole nel cuore della Sicilia occidentale</p>
+    <a href="#contatti" class="hero-cta">
+      <span data-it="Prenota subito" data-en="Book now">Prenota subito</span>
+    </a>
+  </div>
+  <div class="hero-scroll">
+    <span data-it="Scopri" data-en="Discover">Scopri</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ═══ PRESENTAZIONE ════════════════════════════════ -->
+<section id="presentazione">
+  <div class="container">
+    <div class="pres-grid">
+      <div class="pres-img-wrap reveal">
+        <img src="img/presentazione.jpg" alt="Vista dalla terrazza su Marsala">
+      </div>
+      <div class="pres-text reveal">
+        <p class="section-label" data-it="La struttura" data-en="About us">La struttura</p>
+        <h2 class="section-title" data-it="Un rifugio nel cuore di Marsala" data-en="A retreat in the heart of Marsala">Un rifugio nel cuore di Marsala</h2>
+        <div class="section-divider"></div>
+        <p class="pres-body" data-it="Nel cuore del centro storico di Marsala nasce La Terrazza, una struttura pensata per offrire agli ospiti comfort, accoglienza e tutto il necessario per un soggiorno rilassante e autentico. A pochi passi da piazze storiche, chiese monumentali e scorci barocchi, la sua posizione è ideale per vivere la città e scoprire le meraviglie del territorio, come le spiagge, le Isole Egadi, le Saline e la Riserva Naturale dello Stagnone." data-en="In the heart of Marsala's historic center, La Terrazza was created to offer guests comfort, warm hospitality, and everything needed for a relaxing and authentic stay. Just steps from historic squares, monumental churches, and baroque vistas, its location is ideal for experiencing the city and discovering the wonders of the region, such as the beaches, the Egadi Islands, the Salt Flats, and the Stagnone Nature Reserve.">Nel cuore del centro storico di Marsala nasce La Terrazza, una struttura pensata per offrire agli ospiti comfort, accoglienza e tutto il necessario per un soggiorno rilassante e autentico. A pochi passi da piazze storiche, chiese monumentali e scorci barocchi, la sua posizione è ideale per vivere la città e scoprire le meraviglie del territorio, come le spiagge, le Isole Egadi, le Saline e la Riserva Naturale dello Stagnone.</p>
+        <div class="pres-nearby">
+          <div class="pres-nearby-row">
+            <div class="pres-nearby-item"><span class="pres-nearby-emoji">🏛️</span><span data-it="Centro storico · A piedi" data-en="Historic center · On foot">Centro storico · A piedi</span></div>
+            <span class="pres-nearby-sep">✦</span>
+            <div class="pres-nearby-item"><span class="pres-nearby-emoji">⛵</span><span data-it="Isole Egadi · ~30 min" data-en="Egadi Islands · ~30 min">Isole Egadi · ~30 min</span></div>
+            <span class="pres-nearby-sep">✦</span>
+            <div class="pres-nearby-item"><span class="pres-nearby-emoji">🧂</span><span data-it="Saline · ~10 min" data-en="Salt Flats · ~10 min">Saline · ~10 min</span></div>
+            <span class="pres-nearby-sep">✦</span>
+            <div class="pres-nearby-item"><span class="pres-nearby-emoji">🏖️</span><span data-it="Spiagge · ~15 min" data-en="Beaches · ~15 min">Spiagge · ~15 min</span></div>
+            <span class="pres-nearby-sep">✦</span>
+            <div class="pres-nearby-item"><span class="pres-nearby-emoji">✈️</span><span data-it="Aeroporto Trapani · ~20 min" data-en="Trapani Airport · ~20 min">Aeroporto Trapani · ~20 min</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CAMERE ════════════════════════════════════════ -->
+<section id="camere">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label" data-it="I nostri appartamenti" data-en="Our apartments">I nostri appartamenti</p>
+      <h2 class="section-title" data-it="Scegli il tuo spazio" data-en="Choose your space">Scegli il tuo spazio</h2>
+      <div class="section-divider"></div>
+    </div>
+
+    <div class="camere-tabs reveal">
+      <button class="tab-btn active" onclick="openTab('suite',this)">Suite</button>
+      <button class="tab-btn" onclick="openTab('marettimo',this)">Marettimo</button>
+      <button class="tab-btn" onclick="openTab('favignana',this)">Favignana</button>
+      <button class="tab-btn" onclick="openTab('levanzo',this)">Levanzo</button>
+      <button class="tab-btn" onclick="openTab('pantelleria',this)">Pantelleria</button>
+    </div>
+
+    <!-- SUITE: msg2 img 8–19 (terrazza + interni) -->
+    <div id="panel-suite" class="camera-panel active">
+      <div class="slider-wrap">
+        <div class="slides-track" id="track-suite">
+          <div class="slide"><img src="img/suite-1.jpg" alt="Suite vista cupola"></div>
+          <div class="slide"><img src="img/suite-2.jpg" alt="Suite terrazza"></div>
+          <div class="slide"><img src="img/suite-3.jpg" alt="Suite terrazza 2"></div>
+          <div class="slide"><img src="img/suite-4.jpg" alt="Suite terrazza 3"></div>
+          <div class="slide"><img src="img/suite-5.jpg" alt="Suite terrazza 4"></div>
+          <div class="slide"><img src="img/suite-6.jpg" alt="Suite terrazza 5"></div>
+          <div class="slide"><img src="img/suite-7.jpg" alt="Suite terrazza 6"></div>
+          <div class="slide"><img src="img/suite-8.jpg" alt="Suite terrazza 7"></div>
+          <div class="slide"><img src="img/suite-9.jpg" alt="Suite terrazza 8"></div>
+          <div class="slide"><img src="img/suite-10.jpg" alt="Suite soggiorno"></div>
+          <div class="slide"><img src="img/suite-11.jpg" alt="Suite dettaglio"></div>
+          <div class="slide"><img src="img/suite-12.jpg" alt="Suite dettaglio 2"></div>
+          <div class="slide"><img src="img/suite-13.jpg" alt="Suite cucina"></div>
+          <div class="slide"><img src="img/suite-14.jpg" alt="Suite bagno"></div>
+        </div>
+        <button class="slider-btn slider-prev" onclick="slide('suite',-1)">&#8592;</button>
+        <button class="slider-btn slider-next" onclick="slide('suite',1)">&#8594;</button>
+        <div class="slider-dots" id="dots-suite"></div>
+      </div>
+    </div>
+
+    <!-- MARETTIMO: img 4–13 (IMG_3554 → IMG_3563) -->
+    <div id="panel-marettimo" class="camera-panel">
+      <div class="slider-wrap">
+        <div class="slides-track" id="track-marettimo">
+          <div class="slide"><img src="img/marettimo-1.jpg" alt="Marettimo 1"></div>
+          <div class="slide"><img src="img/marettimo-2.jpg" alt="Marettimo 2"></div>
+          <div class="slide"><img src="img/marettimo-3.jpg" alt="Marettimo 3"></div>
+          <div class="slide"><img src="img/marettimo-4.jpg" alt="Marettimo 4"></div>
+          <div class="slide"><img src="img/marettimo-5.jpg" alt="Marettimo 5"></div>
+          <div class="slide"><img src="img/marettimo-6.jpg" alt="Marettimo 6"></div>
+          <div class="slide"><img src="img/marettimo-7.jpg" alt="Marettimo 7"></div>
+          <div class="slide"><img src="img/marettimo-8.jpg" alt="Marettimo 8"></div>
+          <div class="slide"><img src="img/marettimo-9.jpg" alt="Marettimo 9"></div>
+          <div class="slide"><img src="img/marettimo-10.jpg" alt="Marettimo 10"></div>
+        </div>
+        <button class="slider-btn slider-prev" onclick="slide('marettimo',-1)">&#8592;</button>
+        <button class="slider-btn slider-next" onclick="slide('marettimo',1)">&#8594;</button>
+        <div class="slider-dots" id="dots-marettimo"></div>
+      </div>
+    </div>
+
+    <!-- FAVIGNANA: msg2 img 1–4 (IMG_3578, IMG_3571, IMG_3572, IMG_3573) -->
+    <div id="panel-favignana" class="camera-panel">
+      <div class="slider-wrap">
+        <div class="slides-track" id="track-favignana">
+          <div class="slide"><img src="img/favignana-1.jpg" alt="Favignana 1"></div>
+          <div class="slide"><img src="img/favignana-2.jpg" alt="Favignana 2"></div>
+          <div class="slide"><img src="img/favignana-3.jpg" alt="Favignana 3"></div>
+          <div class="slide"><img src="img/favignana-4.jpg" alt="Favignana 4"></div>
+        </div>
+        <button class="slider-btn slider-prev" onclick="slide('favignana',-1)">&#8592;</button>
+        <button class="slider-btn slider-next" onclick="slide('favignana',1)">&#8594;</button>
+        <div class="slider-dots" id="dots-favignana"></div>
+      </div>
+    </div>
+
+    <!-- LEVANZO: img 14–18 (IMG_3564 → IMG_3568) -->
+    <div id="panel-levanzo" class="camera-panel">
+      <div class="slider-wrap">
+        <div class="slides-track" id="track-levanzo">
+          <div class="slide"><img src="img/levanzo-1.jpg" alt="Levanzo 1"></div>
+          <div class="slide"><img src="img/levanzo-2.jpg" alt="Levanzo 2"></div>
+          <div class="slide"><img src="img/levanzo-3.jpg" alt="Levanzo 3"></div>
+          <div class="slide"><img src="img/levanzo-4.jpg" alt="Levanzo 4"></div>
+          <div class="slide"><img src="img/levanzo-5.jpg" alt="Levanzo 5"></div>
+        </div>
+        <button class="slider-btn slider-prev" onclick="slide('levanzo',-1)">&#8592;</button>
+        <button class="slider-btn slider-next" onclick="slide('levanzo',1)">&#8594;</button>
+        <div class="slider-dots" id="dots-levanzo"></div>
+      </div>
+    </div>
+
+    <!-- PANTELLERIA: msg2 img 5–7 (blue apartment) -->
+    <div id="panel-pantelleria" class="camera-panel">
+      <div class="slider-wrap">
+        <div class="slides-track" id="track-pantelleria">
+          <div class="slide"><img src="img/pantelleria-1.jpg" alt="Pantelleria 1"></div>
+          <div class="slide"><img src="img/pantelleria-2.jpg" alt="Pantelleria 2"></div>
+          <div class="slide"><img src="img/pantelleria-3.jpg" alt="Pantelleria 3"></div>
+        </div>
+        <button class="slider-btn slider-prev" onclick="slide('pantelleria',-1)">&#8592;</button>
+        <button class="slider-btn slider-next" onclick="slide('pantelleria',1)">&#8594;</button>
+        <div class="slider-dots" id="dots-pantelleria"></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section id="recensioni">
+  <div class="container">
+    <div class="reveal" style="text-align:center;">
+      <p class="section-label" data-it="Cosa dicono i nostri ospiti" data-en="What our guests say">Cosa dicono i nostri ospiti</p>
+      <h2 class="section-title" data-it="Recensioni" data-en="Reviews">Recensioni</h2>
+      <div class="section-divider" style="margin-left:auto;margin-right:auto;"></div>
+    </div>
+
+    <div class="reviews-grid">
+
+      <div class="review-card reveal">
+        <span class="review-quote">"</span>
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text" data-it="Soggiorno perfetto! L'appartamento è in una posizione strategica, comodissimo per raggiungere tutto a piedi. Pulitissimo e fornito di ogni comfort. I proprietari sono stati gentilissimi e sempre disponibili per qualsiasi esigenza. Lo consiglio vivamente a chi cerca un alloggio accogliente e curato. Ci tornerei volentieri!" data-en="Perfect stay! The apartment is in a strategic location, very convenient to reach everything on foot. Spotlessly clean and equipped with every comfort. The owners were very kind and always available for any need. I highly recommend it to anyone looking for a welcoming and well-kept accommodation. I'd happily return!">Soggiorno perfetto! L'appartamento è in una posizione strategica, comodissimo per raggiungere tutto a piedi. Pulitissimo e fornito di ogni comfort. I proprietari sono stati gentilissimi e sempre disponibili per qualsiasi esigenza. Lo consiglio vivamente a chi cerca un alloggio accogliente e curato. Ci tornerei volentieri!</p>
+        <div class="review-author">
+          <div class="review-dot">M</div>
+          <div>
+            <div class="review-name">Mariasole</div>
+            <div class="review-country" data-it="Italia" data-en="Italy">Italia</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card reveal">
+        <span class="review-quote">"</span>
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text" data-it="Abbiamo preso l'appartamento al piano di sopra e aveva una bella terrazza con vista sulla vita notturna qui. Posizione perfetta, tutto a pochi minuti a piedi. Patrizia e suo marito sono davvero gentili, ci hanno accolto in modo molto amichevole. Ci torneremmo sicuramente qui." data-en="We took the upstairs apartment and it had a lovely terrace overlooking the nightlife here. Perfect location, everything a few minutes on foot. Patrizia and her husband are really kind, they welcomed us in a very friendly way. We would definitely come back here.">Abbiamo preso l'appartamento al piano di sopra e aveva una bella terrazza con vista sulla vita notturna qui. Posizione perfetta, tutto a pochi minuti a piedi. Patrizia e suo marito sono davvero gentili, ci hanno accolto in modo molto amichevole. Ci torneremmo sicuramente qui.</p>
+        <div class="review-author">
+          <div class="review-dot">M</div>
+          <div>
+            <div class="review-name">Marybel</div>
+            <div class="review-country" data-it="Inghilterra" data-en="England">Inghilterra</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card reveal">
+        <span class="review-quote">"</span>
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text" data-it="Appartamento molto carino e tranquillo con un grazioso balcone, situato a pochi passi dalla zona pedonale e da numerosi ottimi ristoranti." data-en="Very nice and quiet apartment with a lovely balcony, located just steps from the pedestrian area and numerous excellent restaurants.">Appartamento molto carino e tranquillo con un grazioso balcone, situato a pochi passi dalla zona pedonale e da numerosi ottimi ristoranti.</p>
+        <div class="review-author">
+          <div class="review-dot">C</div>
+          <div>
+            <div class="review-name">Catrin</div>
+            <div class="review-country" data-it="Germania" data-en="Germany">Germania</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card reveal">
+        <span class="review-quote">"</span>
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text" data-it="Consiglio vivamente questa sistemazione! L'appartamento è semplicemente magnifico, molto silenzioso, pulitissimo e spazioso: è tutto ciò che avrei potuto desiderare! Grazie a questa sistemazione vi immergerete nel cuore della storia di Marsala. Il padrone di casa è molto gentile, mi ha anche indicato i punti storici da non perdere raccontandomi la storia dello sbarco a Marsala. Un altro aspetto positivo, dal punto di vista storico: vi trovate nella stessa strada in cui Garibaldi sbarcò per unificare l'Italia! Prenotate subito, è stata un'esperienza meravigliosa!" data-en="I highly recommend this accommodation! The apartment is simply magnificent, very quiet, spotlessly clean and spacious: it's everything I could have wished for! Thanks to this accommodation you will immerse yourself in the heart of Marsala's history. The host is very kind, he also pointed out the historical sites not to miss while telling me the story of the landing at Marsala. Another positive aspect, from a historical point of view: you are on the same street where Garibaldi landed to unify Italy! Book now, it was a wonderful experience!">Consiglio vivamente questa sistemazione! L'appartamento è semplicemente magnifico, molto silenzioso, pulitissimo e spazioso: è tutto ciò che avrei potuto desiderare! Grazie a questa sistemazione vi immergerete nel cuore della storia di Marsala. Il padrone di casa è molto gentile, mi ha anche indicato i punti storici da non perdere raccontandomi la storia dello sbarco a Marsala. Un altro aspetto positivo, dal punto di vista storico: vi trovate nella stessa strada in cui Garibaldi sbarcò per unificare l'Italia! Prenotate subito, è stata un'esperienza meravigliosa!</p>
+        <div class="review-author">
+          <div class="review-dot">E</div>
+          <div>
+            <div class="review-name">Etel</div>
+            <div class="review-country" data-it="Francia" data-en="France">Francia</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card reveal">
+        <span class="review-quote">"</span>
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text" data-it="Un posto meraviglioso e i proprietari sono ancora migliori. Sono stati molto disponibili, mi hanno prelevato all'aeroporto e mi hanno accompagnato al mio volo mattutino senza problemi. Mi hanno dato consigli su cosa vedere e sono sempre disponibili ad aiutare e rispondere quando necessario. L'appartamento è molto pulito e ben tenuto; tutto corrisponde alla descrizione e alle foto. La posizione è perfetta, proprio nel centro città, vicino a tutti i ristoranti e negozi." data-en="A wonderful place and the owners are even better. They were very helpful, they picked me up at the airport and took me to my morning flight without any problem. They gave me advice on what to see and are always available to help and respond when needed. The apartment is very clean and well-maintained; everything matches the description and photos. The location is perfect, right in the city center, close to all restaurants and shops.">Un posto meraviglioso e i proprietari sono ancora migliori. Sono stati molto disponibili, mi hanno prelevato all'aeroporto e mi hanno accompagnato al mio volo mattutino senza problemi. Mi hanno dato consigli su cosa vedere e sono sempre disponibili ad aiutare e rispondere quando necessario. L'appartamento è molto pulito e ben tenuto; tutto corrisponde alla descrizione e alle foto. La posizione è perfetta, proprio nel centro città, vicino a tutti i ristoranti e negozi.</p>
+        <div class="review-author">
+          <div class="review-dot">K</div>
+          <div>
+            <div class="review-name">Klaudia</div>
+            <div class="review-country" data-it="Polonia" data-en="Poland">Polonia</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ═══ CONTATTI ══════════════════════════════════════ -->
+<section id="contatti">
+  <div class="container">
+    <div class="reveal" style="text-align:center; margin-bottom:64px;">
+      <p class="section-label" data-it="Scrivici" data-en="Write to us">Scrivici</p>
+      <h2 class="section-title" data-it="Prenota il tuo soggiorno" data-en="Book your stay">Prenota il tuo soggiorno</h2>
+      <div class="section-divider" style="margin-left:auto;margin-right:auto;"></div>
+    </div>
+
+    <div class="contatti-grid">
+      <div class="contatti-info reveal">
+        <p style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;line-height:1.7;color:var(--text-light);margin-bottom:36px;"
+           data-it="Siamo a tua disposizione per qualsiasi informazione o per organizzare il tuo soggiorno. Contattaci via telefono, email o compila il modulo."
+           data-en="We are at your disposal for any information or to organize your stay. Contact us by phone, email or fill in the form.">
+          Siamo a tua disposizione per qualsiasi informazione o per organizzare il tuo soggiorno. Contattaci via telefono, email o compila il modulo.
+        </p>
+        <div class="contact-line">
+          <div class="contact-icon">📞</div>
+          <div class="contact-val"><a href="tel:+393208496697">+39 320 849 6697</a></div>
+        </div>
+        <div class="contact-line">
+          <div class="contact-icon">✉</div>
+          <div class="contact-val"><a href="mailto:laterrazzadimarsala@gmail.com">laterrazzadimarsala@gmail.com</a></div>
+        </div>
+        <div class="contact-line">
+          <div class="contact-icon">📍</div>
+          <div class="contact-val">Via Cammerei Scurti, 22 – Marsala (TP)</div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <form id="contactForm" onsubmit="sendForm(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label data-it="Nome" data-en="First name">Nome</label>
+              <input type="text" name="nome" placeholder="Mario" required>
+            </div>
+            <div class="form-group">
+              <label data-it="Cognome" data-en="Last name">Cognome</label>
+              <input type="text" name="cognome" placeholder="Rossi" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" name="email" placeholder="mario@email.it" required>
+            </div>
+            <div class="form-group">
+              <label data-it="Telefono" data-en="Phone">Telefono</label>
+              <input type="tel" name="telefono" placeholder="+39 ...">
+            </div>
+          </div>
+          <div class="form-group">
+            <label data-it="Messaggio" data-en="Message">Messaggio</label>
+            <textarea name="messaggio" rows="5" placeholder="" required></textarea>
+          </div>
+          <button type="submit" class="form-submit">
+            <span data-it="Invia messaggio" data-en="Send message">Invia messaggio</span>
+          </button>
+          <p class="form-msg" id="formMsg"></p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ════════════════════════════════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <span class="brand-text brand-text-footer">La Terrazza</span>
+      </div>
+      <p class="footer-copy">
+        © 2025 La Terrazza Marsala – Via Cammerei Scurti 22, Marsala (TP)
+      </p>
+      <div class="footer-links">
+        <a href="#presentazione" data-it="La struttura" data-en="About">La struttura</a>
+        <a href="#camere" data-it="Camere" data-en="Rooms">Camere</a>
+        <a href="#contatti" data-it="Contatti" data-en="Contact">Contatti</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ─── LANGUAGE ──────────────────────────── */
+let currentLang = 'it';
+
+function setLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    if (b.textContent.toLowerCase() === lang) b.classList.add('active');
+  });
+  document.querySelectorAll('[data-' + lang + ']').forEach(el => {
+    el.textContent = el.getAttribute('data-' + lang);
+  });
+  document.documentElement.lang = lang;
+}
+
+/* ─── MOBILE MENU ───────────────────────── */
+function toggleMenu() {
+  const links = document.getElementById('navLinks');
+  const burger = document.getElementById('hamburger');
+  links.classList.toggle('open');
+  burger.classList.toggle('open');
+}
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('click', () => {
+    document.getElementById('navLinks').classList.remove('open');
+    document.getElementById('hamburger').classList.remove('open');
+  });
+});
+
+/* ─── TABS ──────────────────────────────── */
+function openTab(name, btn) {
+  document.querySelectorAll('.camera-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+/* ─── SLIDER ────────────────────────────── */
+const sliderState = {};
+
+function initSlider(name) {
+  const track = document.getElementById('track-' + name);
+  if (!track) return;
+  const count = track.children.length;
+  sliderState[name] = 0;
+  const dotsEl = document.getElementById('dots-' + name);
+  dotsEl.innerHTML = '';
+  for (let i = 0; i < count; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goToSlide(name, i);
+    dotsEl.appendChild(d);
+  }
+}
+
+function goToSlide(name, idx) {
+  const track = document.getElementById('track-' + name);
+  const count = track.children.length;
+  idx = (idx + count) % count;
+  sliderState[name] = idx;
+  track.style.transform = 'translateX(-' + (idx * 100) + '%)';
+  document.querySelectorAll('#dots-' + name + ' .dot').forEach((d, i) => {
+    d.classList.toggle('active', i === idx);
+  });
+}
+
+function slide(name, dir) {
+  goToSlide(name, (sliderState[name] || 0) + dir);
+}
+
+['suite','marettimo','favignana','levanzo','pantelleria'].forEach(n => initSlider(n));
+
+/* ─── REVEAL ON SCROLL ──────────────────── */
+const revealEls = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.12 });
+revealEls.forEach(el => observer.observe(el));
+
+/* ─── CONTACT FORM (mailto fallback) ────── */
+function sendForm(e) {
+  e.preventDefault();
+  const f = e.target;
+  const nome     = f.nome.value.trim();
+  const cognome  = f.cognome.value.trim();
+  const email    = f.email.value.trim();
+  const telefono = f.telefono.value.trim();
+  const msg      = f.messaggio.value.trim();
+
+  const subject  = encodeURIComponent('Richiesta soggiorno – La Terrazza Marsala');
+  const body     = encodeURIComponent(
+    'Nome: ' + nome + ' ' + cognome + '\n' +
+    'Email: ' + email + '\n' +
+    'Telefono: ' + telefono + '\n\n' +
+    msg
+  );
+  const mailto   = 'mailto:laterrazzadimarsala@gmail.com?subject=' + subject + '&body=' + body;
+
+  window.location.href = mailto;
+
+  const msgEl = document.getElementById('formMsg');
+  msgEl.className = 'form-msg success';
+  msgEl.textContent = currentLang === 'it'
+    ? 'Messaggio pronto. Si aprirà il tuo client email.'
+    : 'Message ready. Your email client will open.';
+}
+</script>
+</body>
+</html>
